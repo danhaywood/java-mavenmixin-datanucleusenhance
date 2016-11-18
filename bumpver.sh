@@ -5,11 +5,8 @@ if [ ! "$VERSION" ]; then
     exit 1
 fi
 
-# edit mixin's pom.xml
-echo "editing mixin's pom.xml"
-pushd mixin >/dev/null
+echo "editing pom.xml"
 mvn versions:set -DnewVersion=$VERSION > /dev/null
-popd >/dev/null
 
 echo "Committing changes"
 git commit -am "bumping to $VERSION"
