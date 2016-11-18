@@ -89,7 +89,7 @@ None currently
 
 == Change Log
 
-* `0.0.1` - for DataNucleus 4.0.1
+* `4.0.1` - for DataNucleus 4.0.1
 
 
 
