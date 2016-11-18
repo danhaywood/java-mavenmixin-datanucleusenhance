@@ -12,6 +12,9 @@
     <packaging>pom</packaging>
     
     <name>${project.groupId}:${project.artifactId}</name>
+    <description>
+        Maven mixin providing the ability to run datanucleus:enhance on JDO/DN entities
+    </description>
     
     <url>https://github.com/danhaywood/java-mavenmixin-datanucleusenhance</url>
     <licenses>
