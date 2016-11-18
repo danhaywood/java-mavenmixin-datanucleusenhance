@@ -89,7 +89,7 @@ None currently
 
 == Change Log
 
-* `4.0.1` - for DataNucleus 4.0.1
+* `0.0.1` - for DataNucleus 4.0.1
 
 
 
@@ -161,8 +161,8 @@ For example:
 
 [source]
 ----
-sh release.sh 4.0.1 \
-              4.0.2-SNAPSHOT \
+sh release.sh 0.0.1 \
+              0.0.2-SNAPSHOT \
               dan@haywood-associates.co.uk \
               "this is not really my passphrase"
 ----
@@ -182,7 +182,7 @@ If the script completes successfully, then push changes:
 [source]
 ----
 git push origin master
-git push origin 4.0.1
+git push origin 0.0.1
 ----
 
 If the script fails to complete, then identify the cause, perform a `git reset --hard` to start over and fix the issue
