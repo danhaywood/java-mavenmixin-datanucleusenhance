@@ -13,9 +13,9 @@ fi
 
 
 echo ""
-echo "sanity check (mvn clean install -T1C -o)"
+echo "sanity check (mvn clean package -o)"
 echo ""
-mvn clean install -T1C -o >/dev/null
+mvn clean package -Dskip.danhaywood-mavenmixin-datanucleusenhance -o >/dev/null
 if [ $? != 0 ]; then
     echo "... failed" >&2
     exit 1
@@ -33,9 +33,9 @@ fi
 
 
 echo ""
-echo "double-check (mvn clean install -T1C -o)"
+echo "double-check (mvn clean package -o)"
 echo ""
-mvn clean install -T1C -o >/dev/null
+mvn clean package -Dskip.danhaywood-mavenmixin-datanucleusenhance -o >/dev/null
 if [ $? != 0 ]; then
     echo "... failed" >&2
     exit 1
@@ -43,10 +43,10 @@ fi
 
 
 echo ""
-echo "releasing 'mixin' module (mvn clean deploy -P release)"
+echo "releasing 'mixin' module (mvn clean deploy)"
 echo ""
 pushd mixin >/dev/null
-mvn clean deploy -P release -Dpgp.secretkey=keyring:id=$KEYID -Dpgp.passphrase="literal:$PASSPHRASE"
+mvn clean deploy -Prelease -Dskip.danhaywood-mavenmixin-datanucleusenhance -Dpgp.secretkey=keyring:id=$KEYID -Dpgp.passphrase="literal:$PASSPHRASE"
 if [ $? != 0 ]; then
     echo "... failed" >&2
     exit 1

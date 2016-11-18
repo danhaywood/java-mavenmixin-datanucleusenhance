@@ -36,14 +36,17 @@
     
     <profiles>
         <profile>
-            <id>com.danhaywood-datanucleusenhance</id>
+            <id>danhaywood-mavenmixin-datanucleusenhance</id>
             <activation>
                 <property>
-                    <name>!skip.datanucleusenhance</name>
+                    <name>!skip.danhaywood-mavenmixin-datanucleusenhance</name>
                 </property>
             </activation>
             <properties>
                 <datanucleus-maven-plugin.version>4.0.1</datanucleus-maven-plugin.version>
+                <datanucleus-core.version>4.1.7</datanucleus-core.version>
+                <datanucleus-api-jdo.version>4.1.1</datanucleus-api-jdo.version>
+                <datanucleus-jodatime.version>4.1.0-release</datanucleus-jodatime.version>
             </properties>
             <build>
                 <plugins>
@@ -72,102 +75,100 @@
                 <dependency>
                     <groupId>org.datanucleus</groupId>
                     <artifactId>datanucleus-core</artifactId>
+                    <version>${datanucleus-core.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.datanucleus</groupId>
                     <artifactId>datanucleus-jodatime</artifactId>
+                    <version>${datanucleus-jodatime.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.datanucleus</groupId>
                     <artifactId>datanucleus-api-jdo</artifactId>
+                    <version>${datanucleus-api-jdo.version}</version>
                 </dependency>
             </dependencies>
         </profile>
+
+        <profile>
+            <id>release</id>
+            <!-- 
+            this profile is not part of the mixin, but is required to be defined as a profile
+            in order to release this mixin pom.xml to Maven Central repo
+            -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.1.2</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <inherited>true</inherited>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <!-- as per http://stackoverflow.com/a/16743137/56880 -->
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <debug>true</debug>
+                            <minmemory>128m</minmemory>
+                            <maxmemory>1024m</maxmemory>
+                            <quiet>true</quiet>
+                            <doctitle>${project.name} ${project.version}</doctitle>
+                            <windowtitle>${project.name} ${project.version}</windowtitle>
+                            <testDoctitle>${project.name} ${project.version} (TEST API)</testDoctitle>
+                            <testWindowtitle>${project.name} ${project.version} (TEST API)</testWindowtitle>
+                            <splitindex>true</splitindex>
+                            <encoding>${project.build.sourceEncoding}</encoding>
+                            <links>
+                                <link>http://docs.oracle.com/javase/7/docs/api/</link>
+                            </links>
+                            <linksource>true</linksource>
+                            <detectOfflineLinks>false</detectOfflineLinks>
+                        </configuration>
+                    </plugin>
+
+                    <!-- http://kohsuke.org/pgp-maven-plugin/secretkey.html instead of maven-gpg-plugin -->
+                    <plugin>
+                        <groupId>org.kohsuke</groupId>
+                        <artifactId>pgp-maven-plugin</artifactId>
+                        <version>1.1</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
     </profiles>
 
-    <build>
-        <plugins>
-            <!-- http://central.sonatype.org/pages/apache-maven.html -->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.2</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.1.2</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <inherited>true</inherited>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <!-- as per http://stackoverflow.com/a/16743137/56880 -->
-                    <additionalparam>-Xdoclint:none</additionalparam>
-                    <debug>true</debug>
-                    <minmemory>128m</minmemory>
-                    <maxmemory>1024m</maxmemory>
-                    <quiet>true</quiet>
-                    <doctitle>${project.name} ${project.version}</doctitle>
-                    <windowtitle>${project.name} ${project.version}</windowtitle>
-                    <testDoctitle>${project.name} ${project.version} (TEST API)</testDoctitle>
-                    <testWindowtitle>${project.name} ${project.version} (TEST API)</testWindowtitle>
-                    <splitindex>true</splitindex>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <links>
-                        <link>http://docs.oracle.com/javase/7/docs/api/</link>
-                    </links>
-                    <linksource>true</linksource>
-                    <detectOfflineLinks>false</detectOfflineLinks>
-                </configuration>
-            </plugin>
-
-            <!-- http://kohsuke.org/pgp-maven-plugin/secretkey.html instead of maven-gpg-plugin -->
-            <plugin>
-                <groupId>org.kohsuke</groupId>
-                <artifactId>pgp-maven-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     
 </project>
