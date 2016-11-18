@@ -45,13 +45,11 @@ fi
 echo ""
 echo "releasing 'mixin' module (mvn clean deploy)"
 echo ""
-pushd mixin >/dev/null
 mvn clean deploy -Prelease -Dskip.danhaywood-mavenmixin-datanucleusenhance -Dpgp.secretkey=keyring:id=$KEYID -Dpgp.passphrase="literal:$PASSPHRASE"
 if [ $? != 0 ]; then
     echo "... failed" >&2
     exit 1
 fi
-mixin >/dev/null
 
 
 
