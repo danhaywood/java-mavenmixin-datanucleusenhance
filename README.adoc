@@ -1,5 +1,4 @@
 = java-mavenmixin-datanucleusenhance
-
 :_imagesdir: ./
 :toc:
 
