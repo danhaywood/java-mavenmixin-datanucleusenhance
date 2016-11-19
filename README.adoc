@@ -5,7 +5,7 @@
 
 
 This module provides a link:https://github.com/odavid/maven-plugins[maven mixin] that can be incorporated into Maven module that contains JDO/DataNucleus entities that require enhancing.
-This reduces the size of the maven `pom.xml` file for that consuming module; it simply needs to reference the `pom.xml` provided by _this_ module.
+This reduces the size of the maven `pom.xml` file for that consuming module; it simply needs to reference _this_ module using the `mixin-maven-plugin`.
 
 The appropriate datanucleus plugins/configuration are included in a `<profile>` which is automatically included in all builds.
 If necessary this profile can be disabled using a Maven property.
@@ -51,7 +51,7 @@ To use:
                     <mixin>
                         <groupId>com.danhaywood.mavenmixin</groupId>
                         <artifactId>datanucleusenhance</artifactId>
-                        <version>0.0.1</version>
+                        <version>0.0.2</version>
                     </mixin>
                 </mixins>
             </configuration>
