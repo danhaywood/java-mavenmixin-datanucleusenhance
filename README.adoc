@@ -1,13 +1,34 @@
 = java-mavenmixin-datanucleusenhance
 
+:_imagesdir: ./
+:toc:
 
-This module, intended for use within link:http://isis.apache.org[Apache Isis], provides a maven mixin that can be incorporated into Maven module that contains JDO/DataNucleus entities that require enhancing.
-This reduces the size of the maven `pom.xml` files; it simply needs to reference this module.
+
+This module provides a link:https://github.com/odavid/maven-plugins[maven mixin] that can be incorporated into Maven module that contains JDO/DataNucleus entities that require enhancing.
+This reduces the size of the maven `pom.xml` file for that consuming module; it simply needs to reference the `pom.xml` provided by _this_ module.
 
 The appropriate datanucleus plugins/configuration are included in a `<profile>` which is automatically included in all builds.
-This profile can be disabled using a Maven property.
+If necessary this profile can be disabled using a Maven property.
 
+[NOTE]
+====
+This module was initially developed for use within link:http://isis.apache.org[Apache Isis] applications but can be used by any application that uses JDO/DataNucleus as its ORM.
+====
 
+== Input Properties
+
+The plugin defines a single optional property:
+
+[source,xml]
+----
+<properties>
+    <danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>
+        ${basedir}/logging-dn-enhance.properties
+    </danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>
+</properties>
+----
+
+This specifies the value of the `log4jConfiguration` property passed to the `datanucleus-maven-plugin` plugin.
 
 
 == How to Configure/Use
@@ -39,7 +60,11 @@ To use:
 </build>
 ----
 
-* include a `logging-dn-enhance.properties` file in the base of those module(s), eg: +
+* (optionally), overrride the `danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration` property
+
+* include a log4j configuration file matching the name of the `log4jConfiguration` property. +
++
+For example: +
 +
 [source,ini]
 ----
@@ -71,13 +96,16 @@ log4j.category.DataNucleus.Enhancer=INFO, A1
 log4j.category.DataNucleus.SchemaTool=INFO, A1
 log4j.category.DataNucleus.JDO=INFO, A1
 ----
++
+If the configuration property has not been overridden, this will be called `logging-dn-enhance.properties` file in the base of the module(s).
+
 
 To disable the (profile contributed by this) mixin, pass the following system property to `mvn`:
-
 [source,bash]
 ----
 -Dskip.danhaywood-mavenmixin-datanucleusenhance
 ----
+
 
 
 
@@ -89,6 +117,7 @@ None currently
 
 == Change Log
 
+* `0.0.2` - allow the `log4jConfiguration` property to be optionally specified by consuming module; change the name of the profile used to release via Sonatype OSS repository
 * `0.0.1` - for DataNucleus 4.0.1
 
 
@@ -161,8 +190,8 @@ For example:
 
 [source]
 ----
-sh release.sh 0.0.1 \
-              0.0.2-SNAPSHOT \
+sh release.sh 0.0.2 \
+              0.0.3-SNAPSHOT \
               dan@haywood-associates.co.uk \
               "this is not really my passphrase"
 ----
@@ -182,7 +211,7 @@ If the script completes successfully, then push changes:
 [source]
 ----
 git push origin master
-git push origin 0.0.1
+git push origin 0.0.2
 ----
 
 If the script fails to complete, then identify the cause, perform a `git reset --hard` to start over and fix the issue

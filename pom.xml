@@ -37,6 +37,10 @@
         </developer>
     </developers>    
     
+    <properties>
+		<danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>${basedir}/logging-dn-enhance.properties</danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>
+	</properties>
+    
     <profiles>
         <profile>
             <id>danhaywood-mavenmixin-datanucleusenhance</id>
@@ -59,7 +63,7 @@
                         <version>${datanucleus-maven-plugin.version}</version>
                         <configuration>
                             <fork>false</fork>
-                            <log4jConfiguration>${basedir}/logging-dn-enhance.properties</log4jConfiguration>
+                            <log4jConfiguration>${danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration}</log4jConfiguration>
                             <verbose>true</verbose>
                             <props>${basedir}/datanucleus.properties</props>
                         </configuration>
@@ -94,7 +98,7 @@
         </profile>
 
         <profile>
-            <id>release</id>
+            <id>danhaywood-mavenmixin-sonatyperelease</id>
             <!-- 
             this profile is not part of the mixin, but is required to be defined as a profile
             in order to release this mixin pom.xml to Maven Central repo
