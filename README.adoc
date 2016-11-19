@@ -102,7 +102,7 @@ If the configuration property has not been overridden, this will be called `logg
 To disable the (profile contributed by this) mixin, pass the following system property to `mvn`:
 [source,bash]
 ----
--Dskip.danhaywood-mavenmixin-datanucleusenhance
+mvn -Dskip.danhaywood-mavenmixin-datanucleusenhance
 ----
 
 
