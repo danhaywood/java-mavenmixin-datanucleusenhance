@@ -39,6 +39,8 @@
     
     <properties>
         <danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>${basedir}/logging-dn-enhance.properties</danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>
+        <danhaywood-mavenmixin-datanucleusenhance.verbose>true</danhaywood-mavenmixin-datanucleusenhance.verbose>
+        <danhaywood-mavenmixin-datanucleusenhance.fork>false</danhaywood-mavenmixin-datanucleusenhance.fork>
     </properties>
     
     <profiles>
@@ -62,17 +64,27 @@
                         <artifactId>datanucleus-maven-plugin</artifactId>
                         <version>${datanucleus-maven-plugin.version}</version>
                         <configuration>
-                            <fork>false</fork>
+                            <fork>${danhaywood-mavenmixin-datanucleusenhance.fork}</fork>
                             <log4jConfiguration>${danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration}</log4jConfiguration>
-                            <verbose>true</verbose>
-                            <props>${basedir}/datanucleus.properties</props>
+                            <verbose>${danhaywood-mavenmixin-datanucleusenhance.verbose}</verbose>
                         </configuration>
                         <executions>
                             <execution>
+                                <id>process-classes</id>
                                 <phase>process-classes</phase>
                                 <goals>
                                     <goal>enhance</goal>
                                 </goals>
+                            </execution>
+                            <execution>
+                                <id>process-test-classes</id>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>enhance</goal>
+                                </goals>
+                                <configuration>
+                                    <metadataDirectory>${project.build.testOutputDirectory}</metadataDirectory>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

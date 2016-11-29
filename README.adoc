@@ -16,19 +16,25 @@ This module was initially developed for use within link:http://isis.apache.org[A
 
 == Input Properties
 
-The plugin defines a single optional property:
+The plugin defines a number of optional properties:
 
-[source,xml]
+[source,xml]    
 ----
 <properties>
     <danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>
         ${basedir}/logging-dn-enhance.properties
     </danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>
+    <danhaywood-mavenmixin-datanucleusenhance.verbose>
+        true
+    </danhaywood-mavenmixin-datanucleusenhance.verbose>
+    <danhaywood-mavenmixin-datanucleusenhance.fork>
+        false
+    </danhaywood-mavenmixin-datanucleusenhance.fork>
 </properties>
 ----
 
-This specifies the value of the `log4jConfiguration` property passed to the `datanucleus-maven-plugin` plugin.
-
+These correspond to the equivalent `<configuration>` parameters of the link:http://www.datanucleus.org/products/accessplatform_4_1/jdo/enhancer.html[datanucleus] enhancer.
+If not set, then the values shown above are the defaults.
 
 == How to Configure/Use
 
@@ -50,7 +56,7 @@ To use:
                     <mixin>
                         <groupId>com.danhaywood.mavenmixin</groupId>
                         <artifactId>datanucleusenhance</artifactId>
-                        <version>0.0.2</version>
+                        <version>0.0.3</version>
                     </mixin>
                 </mixins>
             </configuration>
@@ -59,7 +65,7 @@ To use:
 </build>
 ----
 
-* (optionally), overrride the `danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration` property
+* (optionally), overrride the `danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration` and other properties
 
 * include a log4j configuration file matching the name of the `log4jConfiguration` property. +
 +
@@ -116,6 +122,7 @@ None currently
 
 == Change Log
 
+* `0.0.3` - fixes link:https://github.com/danhaywood/java-mavenmixin-datanucleusenhance/issues/1[#1] - now also enhances test classes; in addition, exposes additional optional configuration properties.
 * `0.0.2` - allow the `log4jConfiguration` property to be optionally specified by consuming module; change the name of the profile used to release via Sonatype OSS repository
 * `0.0.1` - for DataNucleus 4.0.1
 
@@ -170,8 +177,8 @@ For example:
 
 [source]
 ----
-sh release.sh 0.0.2 \
-              0.0.3-SNAPSHOT \
+sh release.sh 0.0.3 \
+              0.0.4-SNAPSHOT \
               dan@haywood-associates.co.uk \
               "this is not really my passphrase"
 ----
@@ -191,7 +198,7 @@ If the script completes successfully, then push changes:
 [source]
 ----
 git push origin master
-git push origin 0.0.2
+git push origin 0.0.3
 ----
 
 If the script fails to complete, then identify the cause, perform a `git reset --hard` to start over and fix the issue before trying again.
