@@ -33,14 +33,65 @@ The plugin defines a number of optional properties:
 </properties>
 ----
 
+
+
+
+== How to Configure
+
+To configure:
+
+* copy and paste the following into either the `pom.xml` of the consuming module or (better still) the `pom.xml` of the top-level parent of the consuming module: +
++
+[source,xml]
+----
+<properties>
+    ...
+    <mavenmixin-datanucleusenhance.version>0.0.4</mavenmixin-datanucleusenhance.version>
+
+    <datanucleus-maven-plugin.version>4.0.5</datanucleus-maven-plugin.version>
+    <datanucleus-core.version>4.1.7</datanucleus-core.version>
+    <datanucleus-api-jdo.version>4.1.1</datanucleus-api-jdo.version>
+    <datanucleus-jodatime.version>4.1.0-release</datanucleus-jodatime.version>
+    ...
+</properties>
+----
++
+and: +
++
+[source,xml]
+----
+<build>
+    <pluginManagement>
+        <plugins>
+            ...
+            <plugin>
+                <groupId>org.datanucleus</groupId>
+                <artifactId>datanucleus-maven-plugin</artifactId>
+                <version>${datanucleus-maven-plugin.version}</version>
+            </plugin>
+            ...
+        </plugins>
+    </pluginManagement>
+</build>
+----
+
+* update the following property/ies in the `pom.xml` of the consuming module (containing the JDO/DataNucleus entities): +
++
+[source,xml]
+----
+<properties>
+    ...
+    <datanucleus-maven-plugin.log4jConfiguration>${basedir}/logging-dn-enhance.properties</datanucleus-maven-plugin.log4jConfiguration>
+    <datanucleus-maven-plugin.verbose>true</datanucleus-maven-plugin.verbose>
+    <datanucleus-maven-plugin.fork>false</datanucleus-maven-plugin.fork>
+    ...
+</properties>
+----
++
 These correspond to the equivalent `<configuration>` parameters of the link:http://www.datanucleus.org/products/accessplatform_4_1/jdo/enhancer.html[datanucleus] enhancer.
 If not set, then the values shown above are the defaults.
 
-== How to Configure/Use
-
-To use:
-
-* add the following to the `pom.xml` of the module(s) containing the JDO/DataNucleus entities: +
+* add the following to the `pom.xml` of the consuming module: +
 +
 [source,xml]
 ----
@@ -56,7 +107,7 @@ To use:
                     <mixin>
                         <groupId>com.danhaywood.mavenmixin</groupId>
                         <artifactId>datanucleusenhance</artifactId>
-                        <version>0.0.3</version>
+                        <version>${mavenmixin-datanucleusenhance.version}</version>
                     </mixin>
                 </mixins>
             </configuration>
@@ -64,8 +115,6 @@ To use:
     </plugins>
 </build>
 ----
-
-* (optionally), overrride the `danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration` and other properties
 
 * include a log4j configuration file matching the name of the `log4jConfiguration` property. +
 +
@@ -108,7 +157,7 @@ If the configuration property has not been overridden, this will be called `logg
 To disable the (profile contributed by this) mixin, pass the following system property to `mvn`:
 [source,bash]
 ----
-mvn -Dskip.danhaywood-mavenmixin-datanucleusenhance
+mvn -Dskip.mavenmixin-datanucleusenhance
 ----
 
 
@@ -122,6 +171,7 @@ None currently
 
 == Change Log
 
+* `0.0.4` - updates README for properties and plugin management, shortens property names and profile id
 * `0.0.3` - fixes link:https://github.com/danhaywood/java-mavenmixin-datanucleusenhance/issues/1[#1] - now also enhances test classes; in addition, exposes additional optional configuration properties.
 * `0.0.2` - allow the `log4jConfiguration` property to be optionally specified by consuming module; change the name of the profile used to release via Sonatype OSS repository
 * `0.0.1` - for DataNucleus 4.0.1
@@ -177,8 +227,8 @@ For example:
 
 [source]
 ----
-sh release.sh 0.0.3 \
-              0.0.4-SNAPSHOT \
+sh release.sh 0.0.4 \
+              0.0.5-SNAPSHOT \
               dan@haywood-associates.co.uk \
               "this is not really my passphrase"
 ----
@@ -198,7 +248,7 @@ If the script completes successfully, then push changes:
 [source]
 ----
 git push origin master
-git push origin 0.0.3
+git push origin 0.0.4
 ----
 
 If the script fails to complete, then identify the cause, perform a `git reset --hard` to start over and fix the issue before trying again.

@@ -37,25 +37,25 @@
         </developer>
     </developers>    
     
-    <properties>
-        <danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>${basedir}/logging-dn-enhance.properties</danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>
-        <danhaywood-mavenmixin-datanucleusenhance.verbose>true</danhaywood-mavenmixin-datanucleusenhance.verbose>
-        <danhaywood-mavenmixin-datanucleusenhance.fork>false</danhaywood-mavenmixin-datanucleusenhance.fork>
-    </properties>
-    
     <profiles>
         <profile>
-            <id>danhaywood-mavenmixin-datanucleusenhance</id>
+            <id>mavenmixin-datanucleusenhance</id>
             <activation>
                 <property>
-                    <name>!skip.danhaywood-mavenmixin-datanucleusenhance</name>
+                    <name>!skip.mavenmixin-datanucleusenhance</name>
                 </property>
             </activation>
             <properties>
-                <datanucleus-maven-plugin.version>4.0.1</datanucleus-maven-plugin.version>
+
+                <datanucleus-maven-plugin.version>4.0.5</datanucleus-maven-plugin.version>
                 <datanucleus-core.version>4.1.7</datanucleus-core.version>
                 <datanucleus-api-jdo.version>4.1.1</datanucleus-api-jdo.version>
                 <datanucleus-jodatime.version>4.1.0-release</datanucleus-jodatime.version>
+
+                <datanucleus-maven-plugin.log4jConfiguration>${basedir}/logging-dn-enhance.properties</datanucleus-maven-plugin.log4jConfiguration>
+                <datanucleus-maven-plugin.verbose>true</datanucleus-maven-plugin.verbose>
+                <datanucleus-maven-plugin.fork>false</datanucleus-maven-plugin.fork>
+
             </properties>
             <build>
                 <plugins>
@@ -64,9 +64,9 @@
                         <artifactId>datanucleus-maven-plugin</artifactId>
                         <version>${datanucleus-maven-plugin.version}</version>
                         <configuration>
-                            <fork>${danhaywood-mavenmixin-datanucleusenhance.fork}</fork>
-                            <log4jConfiguration>${danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration}</log4jConfiguration>
-                            <verbose>${danhaywood-mavenmixin-datanucleusenhance.verbose}</verbose>
+                            <fork>${datanucleus-maven-plugin.fork}</fork>
+                            <log4jConfiguration>${datanucleus-maven-plugin.log4jConfiguration}</log4jConfiguration>
+                            <verbose>${datanucleus-maven-plugin.verbose}</verbose>
                         </configuration>
                         <executions>
                             <execution>
@@ -87,26 +87,26 @@
                                 </configuration>
                             </execution>
                         </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.datanucleus</groupId>
+                                <artifactId>datanucleus-core</artifactId>
+                                <version>${datanucleus-core.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.datanucleus</groupId>
+                                <artifactId>datanucleus-api-jdo</artifactId>
+                                <version>${datanucleus-api-jdo.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.datanucleus</groupId>
+                                <artifactId>datanucleus-jodatime</artifactId>
+                                <version>${datanucleus-jodatime.version}</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
-            <dependencies>
-                <dependency>
-                    <groupId>org.datanucleus</groupId>
-                    <artifactId>datanucleus-core</artifactId>
-                    <version>${datanucleus-core.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.datanucleus</groupId>
-                    <artifactId>datanucleus-jodatime</artifactId>
-                    <version>${datanucleus-jodatime.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.datanucleus</groupId>
-                    <artifactId>datanucleus-api-jdo</artifactId>
-                    <version>${datanucleus-api-jdo.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
 
         <profile>
