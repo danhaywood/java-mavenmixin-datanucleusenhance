@@ -14,25 +14,6 @@ If necessary this profile can be disabled using a Maven property.
 This module was initially developed for use within link:http://isis.apache.org[Apache Isis] applications but can be used by any application that uses JDO/DataNucleus as its ORM.
 ====
 
-== Input Properties
-
-The plugin defines a number of optional properties:
-
-[source,xml]    
-----
-<properties>
-    <danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>
-        ${basedir}/logging-dn-enhance.properties
-    </danhaywood-mavenmixin-datanucleusenhance.log4jConfiguration>
-    <danhaywood-mavenmixin-datanucleusenhance.verbose>
-        true
-    </danhaywood-mavenmixin-datanucleusenhance.verbose>
-    <danhaywood-mavenmixin-datanucleusenhance.fork>
-        false
-    </danhaywood-mavenmixin-datanucleusenhance.fork>
-</properties>
-----
-
 
 
 
