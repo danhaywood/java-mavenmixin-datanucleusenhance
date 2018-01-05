@@ -27,12 +27,12 @@ To configure:
 ----
 <properties>
     ...
-    <mavenmixin-datanucleusenhance.version>0.0.4</mavenmixin-datanucleusenhance.version>
+    <mavenmixin-datanucleusenhance.version>0.0.5</mavenmixin-datanucleusenhance.version>
 
-    <datanucleus-maven-plugin.version>4.0.5</datanucleus-maven-plugin.version>
-    <datanucleus-core.version>4.1.7</datanucleus-core.version>
-    <datanucleus-api-jdo.version>4.1.1</datanucleus-api-jdo.version>
-    <datanucleus-jodatime.version>4.1.0-release</datanucleus-jodatime.version>
+    <datanucleus-maven-plugin.version>5.0.2</datanucleus-maven-plugin.version>
+    <datanucleus-core.version>5.1.5</datanucleus-core.version>
+    <datanucleus-api-jdo.version>5.1.4</datanucleus-api-jdo.version>
+    <datanucleus-jodatime.version>5.1.0-release</datanucleus-jodatime.version>
     ...
 </properties>
 ----
@@ -152,6 +152,7 @@ None currently
 
 == Change Log
 
+* `0.0.5` - updates to DataNucleus 5.1.5
 * `0.0.4` - updates README for properties and plugin management, shortens property names and profile id
 * `0.0.3` - fixes link:https://github.com/danhaywood/java-mavenmixin-datanucleusenhance/issues/1[#1] - now also enhances test classes; in addition, exposes additional optional configuration properties.
 * `0.0.2` - allow the `log4jConfiguration` property to be optionally specified by consuming module; change the name of the profile used to release via Sonatype OSS repository
@@ -208,8 +209,8 @@ For example:
 
 [source]
 ----
-sh release.sh 0.0.4 \
-              0.0.5-SNAPSHOT \
+sh release.sh 0.0.5 \
+              0.0.6-SNAPSHOT \
               dan@haywood-associates.co.uk \
               "this is not really my passphrase"
 ----
@@ -229,7 +230,7 @@ If the script completes successfully, then push changes:
 [source]
 ----
 git push origin master
-git push origin 0.0.4
+git push origin 0.0.5
 ----
 
 If the script fails to complete, then identify the cause, perform a `git reset --hard` to start over and fix the issue before trying again.
